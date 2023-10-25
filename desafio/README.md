@@ -9,25 +9,20 @@ Configuração do Ambiente de Desenvolvimento:
 JDK: Versão Mais Recente
 IDE: Eclipse com Spring Tools Plugin
 Banco de Dados: PostgreSQL (Certifique-se de ter o PostgreSQL instalado e configure as propriedades de conexão no arquivo application.properties)
-
 Importando o Projeto:
 
 Faça o download do projeto como um arquivo ZIP e descompacte no diretório de preferência.
 Importe o projeto no Eclipse como um projeto Maven existente.
 Certifique-se de que o arquivo application.properties está configurado corretamente para o seu banco de dados PostgreSQL.
-
 Configuração do Banco de Dados:
 
 Certifique-se de ter o PostgreSQL instalado localmente.
 Execute os scripts SQL fornecidos no diretório src/main/resources/database/scripts para criar as tabelas necessárias no banco de dados.
-
 Executando a Aplicação:
 
 Inicie a aplicação a partir do Eclipse ou execute mvn spring-boot:run no terminal dentro do diretório do projeto.
-Se estiver utilizando o plugin, basta clique com o botão direito no projeto Run As > Spring Boot App (Alt + Shift + X, B)
+Se estiver utilizando o plugin, basta clicar com o botão direito no projeto e selecionar Run As > Spring Boot App (Alt + Shift + X, B).
 A aplicação estará disponível em http://localhost:8080/pessoa.xhtml.
-
-
 Recursos e Tecnologias Utilizadas:
 
 JavaServer Faces (JSF)
