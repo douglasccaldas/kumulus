@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Cadastro de Pessoa</title>
+</h:head>
+<h:body>
+
+	<h:form id="pessoaForm">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<!-- Formulário de Cadastro de Pessoa -->
+		<p:panel style="width: 100%;">
+			<p:panel header="Cadastro de Pessoa" style="margin: 5px;">
+				<h:panelGrid columns="3" style="width: 100%;">
+					<p:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" value="#{pessoaBean.formPessoa.nome}"
+						required="true" />
+					<h:message for="nome" />
+
+					<p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
+					<p:calendar id="dataNascimento"
+						value="#{pessoaBean.formPessoa.dtNascimento}" pattern="dd/MM/yyyy"
+						required="true" />
+					<h:message for="dataNascimento" />
+
+					<p:outputLabel for="sexo" value="Sexo:" />
+					<p:selectOneMenu id="sexo" value="#{pessoaBean.formPessoa.sexo}"
+						required="true">
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+						<f:selectItem itemLabel="Feminino" itemValue="F" />
+					</p:selectOneMenu>
+					<h:message for="sexo" />
+				</h:panelGrid>
+			</p:panel>
+
+			<!-- Tabela de Endereços -->
+			<p:panel header="Endereços" style="margin: 5px;">
+				<p:dataTable id="enderecosTable" var="endereco"
+					value="#{pessoaBean.formPessoa.enderecos}">
+					<p:column headerText="Estado">
+						<h:outputText value="#{endereco.uf}" />
+					</p:column>
+					<p:column headerText="Cidade">
+						<h:outputText value="#{endereco.localidade}" />
+					</p:column>
+					<p:column headerText="Bairro">
+						<h:outputText value="#{endereco.bairro}" />
+					</p:column>
+					<p:column headerText="Logradouro">
+						<h:outputText value="#{endereco.logradouro}" />
+					</p:column>
+					<p:column headerText="Situação">
+						<h:outputText
+							value="#{endereco.situacao == 'A' ? 'Ativo' : 'Inativo'}" />
+					</p:column>
+					<p:column headerText="Ações">
+						<p:commandButton
+							value="#{endereco.situacao == 'A' ? 'Desativar' : 'Ativar'}"
+							action="#{pessoaBean.alterarSituacaoEndereco(endereco)}"
+							update="pessoaForm:enderecosTable"
+							rendered="#{endereco.id != null}" />
+						<p:commandButton value="Alterar"
+							oncomplete="PF('enderecoDialog').show();" process="@this"
+							action="#{pessoaBean.carregarEndereco(endereco)}"
+							rendered="#{endereco.id != null}" update=":enderecoForm" />
+					</p:column>
+				</p:dataTable>
+				<p:commandButton value="Novo Endereço"
+					action="#{pessoaBean.prepararNovoEndereco()}"
+					update=":enderecoForm" oncomplete="PF('enderecoDialog').show();"
+					style="margin-top:5px" />
+			</p:panel>
+
+			<p:commandButton value="Salvar Pessoa"
+				action="#{pessoaBean.salvarPessoa()}"
+				update="pessoaForm pessoaTabelaForm" process="@form"
+				style="margin: 5px;" />
+
+			<p:commandButton value="Limpar Formulário"
+				actionListener="#{pessoaBean.limparFormulario()}"
+				update="nome dataNascimento enderecosTable" style="margin: 5px;" />
+		</p:panel>
+	</h:form>
+	<h:form id="pessoaTabelaForm">
+		<!-- Tabela de Pessoas -->
+		<p:panel header="Lista de Pessoas">
+			<p:dataTable var="pessoa" value="#{pessoaBean.pessoas}"
+				id="pessoasTable">
+				<p:column headerText="Nome">
+					<h:outputText value="#{pessoa.nome}" />
+				</p:column>
+				<p:column headerText="Ações">
+					<p:commandButton value="Visualizar"
+						action="#{pessoaBean.visualizarPessoa(pessoa)}"
+						oncomplete="PF('visualizarDialog').show();"
+						update=":visualizarDialog" />
+					<p:commandButton value="Alterar"
+						action="#{pessoaBean.carregarPessoa(pessoa)}" update=":pessoaForm" />
+					<p:commandButton value="Excluir"
+						oncomplete="PF('excluirDialog').show();"
+						action="#{pessoaBean.prepararExclusao(pessoa)}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<p:dialog id="enderecoDialog" header="Endereço"
+		widgetVar="enderecoDialog" modal="true" dynamic="true"
+		appendToBody="true">
+		<!-- Formulário de Endereço -->
+		<h:form id="enderecoForm">
+			<p:panel header="Endereço">
+				<h:inputHidden id="id" value="#{pessoaBean.formEndereco.id}" />
+				<h:panelGrid columns="3" style="width: 100%;">
+					<p:outputLabel for="cep" value="CEP:" />
+					<p:inputMask id="cep" value="#{pessoaBean.formEndereco.cep}"
+						mask="99.999-999" required="true" maxlength="8">
+						<p:ajax event="blur" listener="#{pessoaBean.consultarEndereco}"
+							update="estado cidade bairro logradouro" />
+					</p:inputMask>
+					<h:message for="cep" />
+
+					<p:outputLabel for="estado" value="Estado:" />
+					<p:selectOneMenu id="estado" value="#{pessoaBean.formEndereco.uf}"
+						required="true">
+						<f:selectItem itemLabel="Selecione um estado" itemValue="" />
+						<f:selectItems value="#{pessoaBean.estados}" />
+					</p:selectOneMenu>
+					<h:message for="estado" />
+
+					<p:outputLabel for="cidade" value="Cidade:" />
+					<p:inputText id="cidade"
+						value="#{pessoaBean.formEndereco.localidade}" required="true" />
+					<h:message for="cidade" />
+
+					<p:outputLabel for="bairro" value="Bairro:" />
+					<p:inputText id="bairro" value="#{pessoaBean.formEndereco.bairro}"
+						required="true" />
+					<h:message for="bairro" />
+
+					<p:outputLabel for="logradouro" value="Logradouro:" />
+					<p:inputText id="logradouro"
+						value="#{pessoaBean.formEndereco.logradouro}" required="true" />
+					<h:message for="logradouro" />
+
+					<p:outputLabel for="numero" value="Número:" />
+					<p:inputText id="numero" value="#{pessoaBean.formEndereco.numero}"
+						required="true"
+						validatorMessage="Por favor, insira um número válido.">
+						<f:validateLongRange minimum="1" />
+					</p:inputText>
+					<h:message for="numero" />
+
+					<p:outputLabel for="complemento" value="Complemento:" />
+					<p:inputText id="complemento"
+						value="#{pessoaBean.formEndereco.complemento}" />
+					<h:message for="complemento" />
+				</h:panelGrid>
+
+				<p:commandButton value="Salvar Endereço" style="margin-top:5px"
+					action="#{pessoaBean.salvarEndereco()}" process="@form"
+					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('enderecoDialog').hide()"
+					update="enderecoForm pessoaForm:enderecosTable" />
+			</p:panel>
+		</h:form>
+	</p:dialog>
+
+	<!-- Modal para Visualizar Pessoa -->
+	<p:dialog id="visualizarDialog" header="Visualizar Pessoa"
+		widgetVar="visualizarDialog" modal="true" dynamic="true"
+		closable="false">
+		<h:form id="formVizualizar">
+			<!-- Exibir os dados da pessoa, mas desabilitar os campos -->
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nome:" />
+				<h:outputText value="#{pessoaBean.formPessoa.nome}" />
+
+				<p:outputLabel value="Data de Nascimento:" />
+				<h:outputText value="#{pessoaBean.dataNascimentoFormatada}" />
+
+				<p:outputLabel value="Sexo:" />
+				<h:outputText
+					value="#{pessoaBean.formPessoa.sexo == 'M' ? 'Masculino' : 'Feminino'}" />
+			</h:panelGrid>
+
+			<!-- Exibir os endereços da pessoa em uma tabela -->
+			<p:dataTable var="endereco"
+				value="#{pessoaBean.formPessoa.enderecos}"
+				rendered="#{not empty pessoaBean.formPessoa.enderecos}">
+				<p:column headerText="Estado">
+					<h:outputText value="#{endereco.uf}" />
+				</p:column>
+				<p:column headerText="Cidade">
+					<h:outputText value="#{endereco.localidade}" />
+				</p:column>
+				<p:column headerText="Bairro">
+					<h:outputText value="#{endereco.bairro}" />
+				</p:column>
+				<p:column headerText="Logradouro">
+					<h:outputText value="#{endereco.logradouro}" />
+				</p:column>
+				<p:column headerText="Número">
+					<h:outputText value="#{endereco.numero}" />
+				</p:column>
+				<p:column headerText="Complemento">
+					<h:outputText value="#{endereco.complemento}" />
+				</p:column>
+				<p:column headerText="Situação">
+					<h:outputText
+						value="#{endereco.situacao == 'A' ? 'Ativo' : 'Inativo'}" />
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Fechar" style="margin-top:5px"
+				action="#{pessoaBean.fecharModalVisualizar()}" update="pessoaForm"
+				oncomplete="PF('visualizarDialog').hide();" />
+		</h:form>
+	</p:dialog>
+
+	<!-- Modal para Confirmar Exclusão de Pessoa -->
+	<p:confirmDialog id="excluirDialog" header="Confirmar Exclusão"
+		widgetVar="excluirDialog"
+		message="Tem certeza que deseja excluir esta pessoa?"
+		icon="ui-icon-alert">
+		<h:form id="formExclusaoPessoa">
+			<p:commandButton value="Sim" oncomplete="PF('excluirDialog').hide();"
+				action="#{pessoaBean.excluirPessoa()}"
+				update=":pessoaForm :pessoaTabelaForm:pessoasTable" />
+			<p:commandButton value="Não" oncomplete="PF('excluirDialog').hide();" />
+		</h:form>
+	</p:confirmDialog>
+
+
+</h:body>
+</html>
