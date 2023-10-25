@@ -1,36 +1,48 @@
 <h2>Aplicação de Desafio com JSF, PrimeFaces e Spring Boot</h2>
 
-Descrição:
+<h3>Descrição:</h3>
 
-Este é um projeto de exemplo que demonstra uma aplicação web desenvolvida usando a tecnologia JavaServer Faces (JSF) em conjunto com o framework de componentes PrimeFaces e o framework Spring Boot. A aplicação ilustra uma arquitetura robusta e escalável para o desenvolvimento de aplicações web empresariais.
+<p>Este é um projeto de exemplo que demonstra uma aplicação web desenvolvida usando a tecnologia <strong>JavaServer Faces (JSF)</strong> em conjunto com o framework de componentes <strong>PrimeFaces</strong> e o framework <strong>Spring Boot</strong>. A aplicação ilustra uma arquitetura robusta e escalável para o desenvolvimento de aplicações web empresariais.</p>
 
-Configuração do Ambiente de Desenvolvimento:
+<h3>Configuração do Ambiente de Desenvolvimento:</h3>
 
-JDK: Versão Mais Recente
-IDE: Eclipse com Spring Tools Plugin
-Banco de Dados: PostgreSQL (Certifique-se de ter o PostgreSQL instalado e configure as propriedades de conexão no arquivo application.properties)
-Importando o Projeto:
+<ul>
+  <li><strong>JDK:</strong> Versão Mais Recente</li>
+  <li><strong>IDE:</strong> Eclipse com Spring Tools Plugin</li>
+  <li><strong>Banco de Dados:</strong> PostgreSQL (Certifique-se de ter o PostgreSQL instalado e configure as propriedades de conexão no arquivo <code>application.properties</code>)</li>
+</ul>
 
-Faça o download do projeto como um arquivo ZIP e descompacte no diretório de preferência.
-Importe o projeto no Eclipse como um projeto Maven existente.
-Certifique-se de que o arquivo application.properties está configurado corretamente para o seu banco de dados PostgreSQL.
-Configuração do Banco de Dados:
+<h3>Importando o Projeto:</h3>
 
-Certifique-se de ter o PostgreSQL instalado localmente.
-Execute os scripts SQL fornecidos no diretório src/main/resources/database/scripts para criar as tabelas necessárias no banco de dados.
-Executando a Aplicação:
+<ol>
+  <li>Faça o download do projeto como um arquivo ZIP e descompacte no diretório de preferência.</li>
+  <li>Importe o projeto no Eclipse como um projeto Maven existente.</li>
+  <li>Certifique-se de que o arquivo <code>application.properties</code> está configurado corretamente para o seu banco de dados PostgreSQL.</li>
+</ol>
 
-Inicie a aplicação a partir do Eclipse ou execute mvn spring-boot:run no terminal dentro do diretório do projeto.
-Se estiver utilizando o plugin, basta clicar com o botão direito no projeto e selecionar Run As > Spring Boot App (Alt + Shift + X, B).
-A aplicação estará disponível em http://localhost:8080/pessoa.xhtml.
-Recursos e Tecnologias Utilizadas:
+<h3>Configuração do Banco de Dados:</h3>
 
-JavaServer Faces (JSF)
-PrimeFaces (Componentes para JSF)
-Spring Boot (Framework de Inicialização Rápida)
-Spring Data (Facilita a Integração com Bancos de Dados)
-JPA e Hibernate (Mapeamento Objeto-Relacional)
-PostgreSQL (Banco de Dados Relacional)
-REST Template (Para Consultar API de CEP)
-JPQL (Java Persistence Query Language)
-Lombok (Reduz a Necessidade de Códigos Repetitivos)
+<ul>
+  <li>Certifique-se de ter o PostgreSQL instalado localmente.</li>
+  <li>Execute os scripts SQL fornecidos no diretório <code>src/main/resources/database/scripts</code> para criar as tabelas necessárias no banco de dados.</li>
+</ul>
+
+<h3>Executando a Aplicação:</h3>
+
+<p>
+  Inicie a aplicação a partir do Eclipse ou execute <code>mvn spring-boot:run</code> no terminal dentro do diretório do projeto. Se estiver utilizando o plugin, basta clicar com o botão direito no projeto e selecionar <strong>Run As > Spring Boot App</strong> (Alt + Shift + X, B). A aplicação estará disponível em <a href="http://localhost:8080/pessoa.xhtml">http://localhost:8080/pessoa.xhtml</a>.
+</p>
+
+<h3>Recursos e Tecnologias Utilizadas:</h3>
+
+<ul>
+  <li>JavaServer Faces (JSF)</li>
+  <li>PrimeFaces (Componentes para JSF)</li>
+  <li>Spring Boot (Framework de Inicialização Rápida)</li>
+  <li>Spring Data (Facilita a Integração com Bancos de Dados)</li>
+  <li>JPA e Hibernate (Mapeamento Objeto-Relacional)</li>
+  <li>PostgreSQL (Banco de Dados Relacional)</li>
+  <li>REST Template (Para Consultar API de CEP)</li>
+  <li>JPQL (Java Persistence Query Language)</li>
+  <li>Lombok (Reduz a Necessidade de Códigos Repetitivos)</li>
+</ul>
