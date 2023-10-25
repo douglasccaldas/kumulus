@@ -1,4 +1,4 @@
-Aplicação de Desafio com JSF, PrimeFaces e Spring Boot
+<h2>Aplicação de Desafio com JSF, PrimeFaces e Spring Boot</h2>
 
 Descrição:
 
